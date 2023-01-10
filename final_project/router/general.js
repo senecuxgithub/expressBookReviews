@@ -24,7 +24,6 @@ public_users.post("/register", (req,res) => {
 
 
 // Get the book list available in the shop
-     // poner arriba const fs = require("fs");????????
 public_users.get('/',function (req, res) {
 let myPromise = new Promise((resolve,reject) => {
     resolve("List of books ");
@@ -37,21 +36,6 @@ myPromise.then((successMessage) => {
 
 // Get the book list available in the con axios
      // poner arriba const fs = require("fs");????????
-public_users.get('/',function (req, res) {
-const connectToURL = (url)=>{
-    const req = axios.get(url);
-    res.send(req);
-    req.then(resp => {
-        let courseDetails = resp.data;
-    res.send(JSON.stringify(courseDetails,null,4))
-    })
-    .catch(err => {
-        res.send("Rejected for url "+url)
-        res.send(err.toString())
-    });
-}
-connectToURL("https://github.com/senecuxgithub/expressBookReviews/blob/main/final_project/router/booksdb.js");
-});
   
 
 
