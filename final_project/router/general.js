@@ -1,12 +1,10 @@
 const express = require('express');
-var prompt = require('prompt-sync')();
 let books = require("./booksdb.js");
 let isValid = require("./auth_users.js").isValid;
 let users = require("./auth_users.js").users;
 const public_users = express.Router();
 
 
-//app.use(session({secret:"fingerpint"}))
 public_users.post("/register", (req,res) => {
    //Write your code here
    const username = req.body.username;
@@ -23,23 +21,21 @@ public_users.post("/register", (req,res) => {
   });
 
 
-// Get the book list available in the shop
+// TASK 1  Get the book list available in the shop				 TASK 1
 public_users.get('/',function (req, res) {
-let myPromise = new Promise((resolve,reject) => {
-    resolve("List of books ");
-    res.send(JSON.stringify(books,null,4));
-    })
-myPromise.then((successMessage) => {
-    res.send(JSON.stringify("From Callback " + successMessage,null,4));
-  })
+	//Write your code here
+	res.send(JSON.stringify(books,null,4));  
 });
-
-// Get the book list available in the con axios
-     // poner arriba const fs = require("fs");????????
+// TASK 10 - Get the book list available in the shop using promises           TASK 10
+public_users.get('/books',function (req, res) {
+    const get_books = new Promise((resolve, reject) => {
+        resolve(res.send(JSON.stringify({books}, null, 4)));
+      });
+      get_books.then(() => console.log("Promise for Task 10 resolved"));
+        });
   
 
-
-// Get book details based on ISBN
+// TASK 2 Get book details based on ISBN					TASK 2
 public_users.get('/isbn/:isbn',function (req, res) {
 		  const isbn = req.params.isbn;
 		  let isbnbook = books[isbn]["isbn"];
@@ -52,36 +48,40 @@ public_users.get('/isbn/:isbn',function (req, res) {
 		  else {res.send("Unable to find Book!");}
  });
     
-// Get book details based on author    Task 3
+// TASK 3 Get book details based on author    				TASK 3
 public_users.get('/author/:author',function (req, res) {
 		 //Write your code here
-	const author = req.params.author;
-	let autores="";
-	for (var i = 1; i < 9; i++) {
-	   	   if (author==books[i]["author"]) {autores+=books[i]["author"];isbn=i;}
-	}	
+	let author = req.params.author;
+	let autores='2';
+for (var i = 1; i < 11; i++) {
+	if (author==books[i]["author"]) {
+	        isbn=i;
 		let isbnbook = books[isbn]["isbn"];
 		let title = books[isbn]["title"];
-		res.send(JSON.stringify("From the required author = "+autores+" there is title book: "+title+" and isbn= "+isbnbook,null,4));  
+		let author = books[isbn]["author"];
+		 autores=autores+'From the required author = '+author+' there is title book: '+title+' and isbn= '+isbn+'\\n';
+        }}
+        res.send(JSON.stringify(autores,null,4)); 
+   
  });
 %--------------------------------------------------------
-// Get all books based on title
+//  TASK 4 Get  books details based on title					 TASK 4
 public_users.get('/title/:title',function (req, res) {
   ///Write your code here
     const title = req.params.title;
     let isbn="";
-    for (var i = 1; i < 9; i++) {
+    for (var i = 1; i < 11; i++) {
 	   	   if (title==books[i]["title"]) {isbn=i;}
 	}
       res.send(JSON.stringify("From the required title = "+books[isbn]["title"]+" the author is "+books[isbn]["author"]+"  and the isbn of the book is= "+isbn,null,4));  
 });
 
-//  Get book review
+//  TASK 5 Get  books details based on title					 TASK 5
 public_users.get('/review/:isbn',function (req, res) {
   const isbn = req.params.isbn;
   let libro = books[isbn]["review"];
   if (libro){
-  res.send(JSON.stringify(libro,null,4));  // javi
+  res.send(JSON.stringify(libro,null,4)); 
   }
   else {res.send("The requested  book does not have data in its review!");}
  });
