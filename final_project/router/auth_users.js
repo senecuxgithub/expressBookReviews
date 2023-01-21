@@ -87,13 +87,14 @@ regd_users.delete("/auth/review/:isbn", (req, res) => {
   
     if (authenticatedUser(username,password)) {
        const isbn = req.params.isbn;
+       let title=books[isbn]["title"];
        let filtered_book=books[isbn]["isbn"];
        let filtered_reviews= books[isbn]["reviews"];
        let delet_review = books[isbn]["reviews"][username];
        if (delet_review) {
            delete books[isbn]["reviews"][username];
        }
-      return res.send(JSON.stringify("The user: "+username+" has deleted his review",null,4)); 
+      return res.send(JSON.stringify("The user: "+username+" has deleted the review of the book with title "+title,null,4)); 
          } else {   return res.status(208).json({message: "Invalid Login. Check username and password"});}
   });
 
